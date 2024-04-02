@@ -4,7 +4,6 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PosterFallBack from "../assets/images/no-poster.png";
-import useFetch from "../hooks/useFetch";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -19,7 +18,19 @@ const Carousel = ({ data, loading }) => {
   const navigate = useNavigate();
   const carouselRef = useRef();
 
-  const navigation = (dir) => {};
+  const navigation = (dir) => {
+    const container = carouselRef.current;
+    console.log(container);
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const skItem = () => {
     return (
@@ -34,7 +45,7 @@ const Carousel = ({ data, loading }) => {
   };
 
   return (
-    <div className='carousel' ref={carouselRef}>
+    <div className='carousel'>
       <div className='carousel_part'>
         <BsFillArrowLeftCircleFill
           className='carouselLeftNav arrow'
@@ -46,14 +57,18 @@ const Carousel = ({ data, loading }) => {
         />
         {!loading ? (
           <>
-            <div className='carouselItems'>
+            <div className='carouselItems' ref={carouselRef}>
               {data?.map((item) => {
                 const postUrl = item.poster_path
                   ? url.poster + item.poster_path
                   : PosterFallBack;
-                console.log(postUrl);
                 return (
-                  <div key={item.id} className='carouselItem'>
+                  <div
+                    key={item.id}
+                    className='carouselItem'
+                    onClick={() =>
+                      navigate(`${item?.media_type || endpoint}/${item.id}`)
+                    }>
                     <div className='posterBlock'>
                       <LazyImage background={postUrl} />
                       <Rating rating={item.vote_average.toFixed(1)} />
