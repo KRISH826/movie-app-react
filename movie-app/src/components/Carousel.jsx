@@ -9,10 +9,10 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import Container from "./Container";
 import LazyImage from "./LazyImage";
 import dayjs from "dayjs";
 import Rating from "./Rating";
+import Genres from "./Genres";
 
 const Carousel = ({ data, loading }) => {
   const { url } = useSelector((state) => state.home);
@@ -51,11 +51,13 @@ const Carousel = ({ data, loading }) => {
                 const postUrl = item.poster_path
                   ? url.poster + item.poster_path
                   : PosterFallBack;
+                console.log(postUrl);
                 return (
                   <div key={item.id} className='carouselItem'>
                     <div className='posterBlock'>
                       <LazyImage background={postUrl} />
                       <Rating rating={item.vote_average.toFixed(1)} />
+                      <Genres data={item.genre_ids} />
                     </div>
                     <div className='textBlock'>
                       <span className='title'>{item?.title || item?.name}</span>
