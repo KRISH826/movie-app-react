@@ -22,10 +22,9 @@ const HeroBanner = () => {
 
   useEffect(() => {
     const bg =
-      url.backdrop +
+      "https://image.tmdb.org/t/p/original" +
       data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path;
     setbackground(bg);
-    console.log(bg);
   }, [data]);
 
   return (
