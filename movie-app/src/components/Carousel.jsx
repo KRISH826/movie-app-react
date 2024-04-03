@@ -13,14 +13,13 @@ import dayjs from "dayjs";
 import Rating from "./Rating";
 import Genres from "./Genres";
 
-const Carousel = ({ data, loading }) => {
+const Carousel = ({ data, loading, endpoint }) => {
   const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
   const carouselRef = useRef();
 
   const navigation = (dir) => {
     const container = carouselRef.current;
-    console.log(container);
     const scrollAmount =
       dir === "left"
         ? container.scrollLeft - (container.offsetWidth + 20)
