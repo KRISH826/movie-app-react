@@ -5,6 +5,7 @@ import { DatafromAPi } from "./utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import { getApiConfig, getGenres } from "./store/slices/HomeSlice";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "swiper/css";
 import Header from "./components/Header";
 import Home from "./pages/home/Home";
 import Footer from "./components/Footer";
