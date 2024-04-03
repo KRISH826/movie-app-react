@@ -1,7 +1,7 @@
 /** @format */
 
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Container from "../../components/Container";
@@ -11,8 +11,11 @@ import PosterFallback from "./../../assets/images/no-poster.png";
 import Rating from "../../components/Rating";
 import Genres from "../../components/Genres";
 import PlayBtn from "../../components/PlayBtn";
+import VideoPopUp from "../../components/VideoPopUp";
 
 const BannerDetails = ({ video, crew }) => {
+  const [show, setShow] = useState(false);
+  const [videoId, setvideoId] = useState(null);
   const { id, mediaType } = useParams();
   const { url } = useSelector((state) => state.home);
   const { data, loading } = useFetch(`${mediaType}/${id}`);
@@ -26,7 +29,6 @@ const BannerDetails = ({ video, crew }) => {
       writer.job === "Screenplay" ||
       writer.job === "Story"
   );
-  console.log(writer);
 
   const toHoursAndMinutes = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
@@ -71,7 +73,12 @@ const BannerDetails = ({ video, crew }) => {
                       <Genres data={_genres} />
                       <div className='row'>
                         <Rating rating={data?.vote_average.toFixed(1)} />
-                        <div className='playbtn'>
+                        <div
+                          className='playbtn'
+                          onClick={() => {
+                            setShow(true);
+                            setvideoId(video.key);
+                          }}>
                           <PlayBtn />
                           <span className='text'>Watch Trailer</span>
                         </div>
@@ -150,6 +157,12 @@ const BannerDetails = ({ video, crew }) => {
                   </div>
                 </Container>
               </div>
+              <VideoPopUp
+                show={show}
+                setShow={setShow}
+                videoId={videoId}
+                setVideoId={setvideoId}
+              />
             </>
           )}
         </>
