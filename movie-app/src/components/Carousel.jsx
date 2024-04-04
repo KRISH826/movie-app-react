@@ -66,7 +66,7 @@ const Carousel = ({ data, loading, endpoint }) => {
                     key={item.id}
                     className='carouselItem'
                     onClick={() =>
-                      navigate(`${item?.media_type || endpoint}/${item.id}`)
+                      navigate(`/${item?.media_type || endpoint}/${item.id}`)
                     }>
                     <div className='posterBlock'>
                       <LazyImage background={postUrl} />

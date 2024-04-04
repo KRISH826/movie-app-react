@@ -9,14 +9,22 @@ const SimilarVidoes = ({ mediaType, id }) => {
   const { data, loading } = useFetch(`${mediaType}/${id}/similar`);
 
   return (
-    <section className='carouselSection'>
-      <Container>
-        <div className='carousel_sec'>
-          <span className='carouselTitle'>Similar Videos</span>
-        </div>
-        <Carousel endpoint={mediaType} loading={loading} data={data?.results} />
-      </Container>
-    </section>
+    <>
+      {data?.results.length > 0 && (
+        <section className='carouselSection'>
+          <Container>
+            <div className='carousel_sec'>
+              <span className='carouselTitle'>Similar Videos</span>
+            </div>
+            <Carousel
+              endpoint={mediaType}
+              loading={loading}
+              data={data?.results}
+            />
+          </Container>
+        </section>
+      )}
+    </>
   );
 };
 
