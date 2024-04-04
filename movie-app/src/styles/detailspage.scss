@@ -254,10 +254,11 @@
         border-radius: 50%;
         overflow: hidden;
         margin-bottom: 15px;
-        @include md {
-          width: 175px;
+
+        @media (max-width: 500px) {
+          width: 135px;
           margin: 0 auto;
-          height: 175px;
+          height: 135px;
           margin-bottom: 25px;
         }
         img {
