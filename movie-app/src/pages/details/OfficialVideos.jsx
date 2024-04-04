@@ -19,71 +19,71 @@ const OfficialVideos = ({ data, loading }) => {
       </div>
     );
   };
+
   return (
-    <div className='videosSection'>
-      <Container>
-        <div className='sectionHeading'>Official Videos</div>
-        {!loading ? (
-          <>
-            <Swiper
-              slidesPerView={2}
-              spaceBetween={10}
-              breakpoints={{
-                "@0.00": {
-                  slidesPerView: 1.5,
-                  spaceBetween: 10,
-                },
-                "@0.75": {
-                  slidesPerView: 2,
-                  spaceBetween: 20,
-                },
-                "@1.00": {
-                  slidesPerView: 3,
-                  spaceBetween: 40,
-                },
-                "@1.50": {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                },
-              }}
-              className='mySwiper2 videos'>
-              {data?.results?.map((video) => (
-                <SwiperSlide
-                  key={video.id}
-                  className='videoItem'
-                  onClick={() => {
-                    setVideoId(video.key);
-                    setShow(true);
-                  }}>
-                  <div className='videoThumbnail'>
-                    <LazyImage
-                      background={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
-                    />
-                    <PlayBtn />
-                  </div>
-                  <div className='videoTitle'>{video.name}</div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </>
-        ) : (
-          <>
-            <div className='videoSkeleton'>
-              {loadingSkeleton()}
-              {loadingSkeleton()}
-              {loadingSkeleton()}
-              {loadingSkeleton()}
-            </div>
-          </>
-        )}
-      </Container>
-      <VideoPopUp
-        show={show}
-        setShow={setShow}
-        videoId={videoId}
-        setVideoId={setVideoId}
-      />
-    </div>
+    <>
+      {data && (
+        <div className='videosSection'>
+          <Container>
+            <div className='sectionHeading'>Official Videos</div>
+            {!loading ? (
+              <>
+                <Swiper
+                  slidesPerView={2}
+                  spaceBetween={10}
+                  breakpoints={{
+                    "@0.00": {
+                      slidesPerView: 1.5,
+                      spaceBetween: 10,
+                    },
+                    "@0.75": {
+                      slidesPerView: 2,
+                      spaceBetween: 20,
+                    },
+                    "@1.00": {
+                      slidesPerView: 3,
+                      spaceBetween: 40,
+                    },
+                    "@1.50": {
+                      slidesPerView: 3,
+                      spaceBetween: 10,
+                    },
+                  }}
+                  className='mySwiper videos'>
+                  {data?.results?.map((video) => (
+                    <SwiperSlide
+                      key={video.id}
+                      className='videoItem'
+                      onClick={() => {
+                        setVideoId(video.key);
+                        setShow(true);
+                      }}>
+                      <div className='videoThumbnail'>
+                        <LazyImage
+                          background={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
+                        />
+                        <PlayBtn />
+                      </div>
+                      <div className='videoTitle'>{video.name}</div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </>
+            ) : (
+              <>
+                <div className='videoSkeleton'>
+                  {loadingSkeleton()}
+                  {loadingSkeleton()}
+                  {loadingSkeleton()}
+                  {loadingSkeleton()}
+                </div>
+              </>
+            )}
+          </Container>
+          <VideoPopUp />
+        </div>
+      )}
+    </>
   );
 };
 
