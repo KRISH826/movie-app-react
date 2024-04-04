@@ -22,7 +22,7 @@ const OfficialVideos = ({ data, loading }) => {
 
   return (
     <>
-      {data && (
+      {data?.results?.length > 0 && (
         <div className='videosSection'>
           <Container>
             <div className='sectionHeading'>Official Videos</div>
@@ -45,7 +45,7 @@ const OfficialVideos = ({ data, loading }) => {
                       spaceBetween: 40,
                     },
                     "@1.50": {
-                      slidesPerView: 3,
+                      slidesPerView: 4,
                       spaceBetween: 10,
                     },
                   }}

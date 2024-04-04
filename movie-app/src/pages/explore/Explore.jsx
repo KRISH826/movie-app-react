@@ -8,6 +8,7 @@ import { DatafromAPi } from "../../utils/api";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MovieCard from "../../components/MovieCard";
 import useFetch from "../../hooks/useFetch";
+import Select from "react-select";
 
 const Explore = () => {
   const [data, setData] = useState(null);
@@ -16,12 +17,13 @@ const Explore = () => {
   const [genre, setGenre] = useState(null);
   const [sortby, setSortby] = useState(null);
   const { mediaType } = useParams();
+  let filters = {};
 
   // const { data: genresData } = useFetch(`genre/${mediaType}/list`);
 
   const fetchInitialData = () => {
     setLoading(true);
-    DatafromAPi(`discover/${mediaType}`).then((res) => {
+    DatafromAPi(`discover/${mediaType}`, filters).then((res) => {
       setData(res);
       console.log(res);
       setnum((prev) => prev + 1);
@@ -29,8 +31,21 @@ const Explore = () => {
     });
   };
 
+  const sortByData = [
+    { value: "popularity.desc", label: "Popularity Descending" },
+    { value: "popularity.asc", label: "Popularity Ascending" },
+    { value: "vote_average.desc", label: "Rating Descending" },
+    { value: "vote_average.asc", label: "Rating Ascending" },
+    {
+      value: "primary_release_date.desc",
+      label: "Release Date Descending",
+    },
+    { value: "primary_release_date.asc", label: "Release Date Ascending" },
+    { value: "original_title.asc", label: "Title (A-Z)" },
+  ];
+
   const fetchNextPageData = () => {
-    DatafromAPi(`discover/${mediaType}?page=${num}`).then((res) => {
+    DatafromAPi(`discover/${mediaType}?page=${num}`, filters).then((res) => {
       if (data.results) {
         setData({
           ...data,
@@ -43,8 +58,26 @@ const Explore = () => {
     });
   };
 
-  useEffect(() => {
+  const onChange = (selectedItems, action) => {
+    if (action.name === "sortby") {
+      setSortby(selectedItems);
+      if (action.action !== "clear") {
+        filters.sort_by = selectedItems.value;
+      } else {
+        delete filters.sort_by;
+      }
+    }
     setnum(1);
+    fetchInitialData();
+  };
+
+  useEffect(() => {
+    filters = {};
+    setnum(1);
+    setData(null);
+    setnum(1);
+    setSortby(1);
+    setGenre(null);
     fetchInitialData();
   }, [mediaType]);
 
@@ -54,6 +87,18 @@ const Explore = () => {
         <div className='pageHeader'>
           <div className='pageTitle'>
             {mediaType === "tv" ? "Explore Tv Shows" : "Explore Movies"}
+          </div>
+          <div className='filters'>
+            <Select
+              name='sortby'
+              value={sortby}
+              isClearable={true}
+              placeholder='Sort by'
+              options={sortByData}
+              onChange={onChange}
+              className='react-select-container genresDD'
+              classNamePrefix='react-select'
+            />
           </div>
         </div>
         {loading && <SpinnerLoader initial={true} />}
