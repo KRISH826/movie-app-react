@@ -5,6 +5,8 @@ import { DatafromAPi } from "./utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import { getApiConfig, getGenres } from "./store/slices/HomeSlice";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "swiper/css";
 import Header from "./components/Header";
 import Home from "./pages/home/Home";
